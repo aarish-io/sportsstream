@@ -123,6 +123,10 @@ Connect: `ws://localhost:8000/ws`
 ### Server → Client Messages
 - `{ "type": "welcome" }`
 - `{ "type": "commentary", "data": { ... } }`
+- `{ "type": "score_update", "data": { ... } }`
+- `{ "type": "subscribed", "matchId": 123 }`
+- `{ "type": "unsubscribed", "matchId": 123 }`
+- `{ "type": "error", "error": "Invalid message", "details": { ... } }`
 - `{ "type": "pong" }`
 
 ### Limits
