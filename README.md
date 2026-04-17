@@ -9,7 +9,7 @@ SportsStream is a full-stack application for live sports coverage with:
 - **RESTful API** for match and commentary management
 - **Production-grade security** with rate limiting and bot protection
 - **Type-safe database** layer with Drizzle ORM
-- **Modern frontend** with React 18, TypeScript, and Tailwind CSS
+- **Modern frontend** with React 19, TypeScript, and Tailwind CSS
 
 ## 📦 Tech Stack
 
@@ -22,7 +22,7 @@ SportsStream is a full-stack application for live sports coverage with:
 - **Arcjet** - Rate limiting & security
 
 ### Frontend
-- **React 18** - UI library
+- **React 19** - UI library
 - **TypeScript** - Type safety
 - **Tailwind CSS** - Utility-first styling
 - **Vite** - Fast build tooling
@@ -276,4 +276,3 @@ For questions or issues:
 ---
 
 **Built with ❤️ for real-time sports streaming**
-
