@@ -146,6 +146,8 @@ graphify-out/
 .junie/
 .zencoder/
 docs/
+frontend/README.md
+frontend/public/readme/
 
 # APM Monitoring
 apminsightnode.json

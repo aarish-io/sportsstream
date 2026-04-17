@@ -1,86 +1,35 @@
-<div align="center">
-  <br />
-    <a href="https://youtu.be/pbOXOY78dNA" target="_blank">
-      <img src="public/readme/readme-hero.webp" alt="Project Banner">
-    </a>
-  <br /> 
+# SportsStream - Real-Time Sports Events Dashboard
 
-  <div>
-<img src="https://img.shields.io/badge/-Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white" /> 
-<img src="https://img.shields.io/badge/-Express_5-000000?style=for-the-badge&logo=Express&logoColor=white" /> 
-<img src="https://img.shields.io/badge/-WebSockets-010101?style=for-the-badge&logo=Socket.io&logoColor=white" />
-  <img src="https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=React&logoColor=black" />
-<br/>
-<img src="https://img.shields.io/badge/-PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white" /> <img src="https://img.shields.io/badge/-Drizzle-C5F74F?style=for-the-badge&logo=Drizzle&logoColor=black" /> 
-<img src="https://img.shields.io/badge/-Zod-3E67B1?style=for-the-badge&logo=Zod&logoColor=white" />
-<br/>
-<img src="https://img.shields.io/badge/-Arcjet-5C2D91?style=for-the-badge&logo=Arcjet&logoColor=white" /> 
-<img src="https://img.shields.io/badge/-Site24x7-26CD66?style=for-the-badge&logo=Site24x7&logoColor=white" /> <img src="https://img.shields.io/badge/-CodeRabbit-000000?style=for-the-badge&logo=CodeRabbit&logoColor=white" /> 
+A production-ready backend service for live sports coverage with WebSocket real-time streaming, rate limiting, and robust error handling.
 
-  </div>
-
-  <h3 align="center">SportsStream - Real-Time Sports Events Dashboard</h3>
-
-   <div align="center">
-     A production-ready backend service for live sports coverage with WebSocket real-time streaming, rate limiting, and robust error handling.
-    </div>
-</div>
-
-## 📋 <a name="table">Table of Contents</a>
+## 📋 Table of Contents
 
 1. ✨ [Introduction](#introduction)
 2. ⚙️ [Tech Stack](#tech-stack)
 3. 🔋 [Features](#features)
 4. 🤸 [Quick Start](#quick-start)
-5. 🔗 [Assets](#links)
-6. 🚀 [More](#more)
+5. 📡 [REST API](#rest-api)
+6. 🔌 [WebSocket Protocol](#websocket-protocol)
 
 ## 🚨 Overview
 
-This repository contains the complete backend implementation for a real-time sports streaming platform.
+This repository contains the backend implementation for a real-time sports streaming platform.
 
 ## <a name="introduction">✨ Introduction</a>
 
-Sportz is a comprehensive backend service designed for live sports coverage, utilizing REST endpoints for match and commentary management alongside WebSockets for real-time data broadcasting. The platform allows clients to monitor match lists and receive instantaneous score and play-by-play commentary updates through a robust streaming architecture that features heartbeats, rate limiting, and backpressure protection. By enforcing live-only updates and utilizing Zod schemas for strict input validation, Sportz ensures a reliable and structured flow of information; additionally, the service includes dedicated seeding tools to simulate live game environments and facilitate development.
+**SportsStream** is a comprehensive backend service designed for live sports coverage, utilizing REST endpoints for match and commentary management alongside WebSockets for real-time data broadcasting. The platform allows clients to monitor match lists and receive instantaneous score and play-by-play commentary updates through a robust streaming architecture that features heartbeats, rate limiting, and backpressure protection. 
 
-If you're getting started and need assistance or face any bugs, join our active Discord community with over **50k+** members. It's a place where people help each other out.
-
-<a href="https://discord.com/invite/n6EdbFJ" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/618f4872-1e10-42da-8213-1d69e486d02e" /></a>
+By enforcing live-only updates and utilizing Zod schemas for strict input validation, SportsStream ensures a reliable and structured flow of information; additionally, the service includes dedicated seeding tools to simulate live game environments and facilitate development.
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
-- **[React](https://react.dev/)** is a declarative, component-based UI library that helps developers build interactive user interfaces with efficient rendering. It provides core primitives for state management, component lifecycle, and a virtual DOM, ensuring that applications remain performant, scalable, and easy to maintain across complex web environments.
-
-- **[Arcjet](https://jsm.dev/sportz-arcjet)** is a security-first tool that helps developers protect their applications with just a few lines of code. It provides security primitives for rate limiting, bot protection, email validation, and sensitive data masking, ensuring the application remains secure and resilient.
-
-- **[PostgreSQL](https://www.postgresql.org/)** is a powerful, open-source relational database system known for its reliability, data integrity, and robust feature set. It supports advanced data types, full ACID compliance, and extensibility, making it suitable for a wide range of applications.
-
-- **[Drizzle ORM](https://orm.drizzle.team/docs/overview)** is a lightweight and performant TypeScript ORM designed with developer experience in mind. It provides a seamless interface between application code and database operations while maintaining high performance and reliability.
-
-- **[Drizzle Kit](https://orm.drizzle.team/kit-docs/overview)** is a CLI companion for Drizzle ORM that automates database migrations and schema synchronization; it ensures that your database structure remains consistent with your TypeScript definitions through efficient code generation.
-
-- **[Node.js](https://nodejs.org/)** is an open-source, cross-platform JavaScript runtime environment that executes JavaScript code outside a web browser. It is designed to build scalable network applications and serves as the foundation for the project's backend logic.
-
-- **[Express.js](https://expressjs.com/)** is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. It facilitates the rapid development of RESTful APIs and serves as the standard server framework for the Node.js ecosystem.
-
-- **[CORS Middleware](https://github.com/expressjs/cors)** is a package for Express that provides a simple mechanism to enable Cross-Origin Resource Sharing; it manages the security headers required to allow or restrict web applications from making requests to a different domain.
-
-- **[Dotenv](https://github.com/motdotla/dotenv)** is a zero-dependency module that loads environment variables from a .env file into process.env; it helps keep configuration separate from code and secures sensitive credentials like API keys and database strings.
-
-- **[WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)** is a communication protocol that provides full-duplex communication channels over a single TCP connection; it enables real-time, bi-directional interaction between a client and a server without the overhead of traditional HTTP polling.
-
-- **[WS Library](https://github.com/websockets/ws)** is a simple-to-use, blazing-fast, and thoroughly tested WebSocket client and server implementation for Node.js; it serves as a high-performance foundation for building scalable real-time applications.
-
-- **[Zod](https://zod.dev/)** is a TypeScript-first schema declaration and validation library; it allows developers to define data structures and automatically infer types, ensuring that input data is strictly validated and type-safe at runtime.
-
-### Dev Tools
-- **[CodeRabbit](https://jsm.dev/sportz-coderabbit)** is an AI-powered code review platform that provides automated, contextual feedback on pull requests. It helps developers improve code quality and catch potential bugs early by integrating directly into the development workflow.
-
-- **[Hostinger](https://jsm.dev/sportz-hostinger)** is a high-performance web hosting provider that offers scalable solutions for deploying web applications; it provides a user-friendly interface, optimized server performance, and robust security features to ensure reliable uptime and accessibility for your projects.
-
-- **[Site24x7](https://jsm.dev/sportz-site24x7)** is a comprehensive monitoring solution that provides deep insights into application performance and infrastructure health. It allows for real-time tracking of uptime, end-user experience, and server metrics to ensure maximum availability.
-
-
+- **Node.js**: Open-source, cross-platform JavaScript runtime environment.
+- **Express.js**: Minimal and flexible Node.js web application framework.
+- **PostgreSQL**: Powerful, open-source relational database system.
+- **Drizzle ORM**: Lightweight and performant TypeScript ORM.
+- **WebSockets (ws)**: Full-duplex communication channels over a single TCP connection.
+- **Zod**: TypeScript-first schema declaration and validation library.
+- **Arcjet**: Security-first tool for rate limiting and bot protection.
 
 ## <a name="features">🔋 Features</a>
 
@@ -98,19 +47,15 @@ If you're getting started and need assistance or face any bugs, join our active 
 
 👉 **Seed Tooling**: Rapidly populate matches and simulate live commentary and score changes with a dedicated script designed for testing and simulation.
 
-And many more, including code architecture and reusability.
-
 ## <a name="quick-start">🤸 Quick Start</a>
 
 Follow these steps to set up the project locally on your machine.
 
 **Prerequisites**
 
-Make sure you have the following installed on your machine:
-
 - [Git](https://git-scm.com/)
 - [Node.js](https://nodejs.org/en)
-- [npm](https://www.npmjs.com/) (Node Package Manager)
+- [npm](https://www.npmjs.com/)
 
 **Cloning the Repository**
 
@@ -121,38 +66,25 @@ cd sportsstream
 
 **Installation**
 
-Install the project dependencies using npm:
-
 ```bash
 npm install
 ```
 
 **Set Up Environment Variables**
 
-Create a new file named `.env` in the root of your project and add the following content:
+Create a `.env` file in the root directory:
 
 ```env
-# Database
-DATABASE_URL=
-
-# Port & Host
+DATABASE_URL=your_postgresql_url
 PORT=8000
 HOST=0.0.0.0 
-
-# Arcjet
-ARCJET_KEY=""
-ARCJET_ENV="development"
-
-# API URL
-API_URL="http://localhost:8000"
-# API_URL="YOUR_REAL_PRODUCTION_URL"
-
-BROADCAST="1"
-DELAY_MS="250"
-MATCH_COUNT="0"
+ARCJET_KEY=your_arcjet_key
+ARCJET_ENV=development
+API_URL=http://localhost:8000
+BROADCAST=1
+DELAY_MS=250
+MATCH_COUNT=0
 ```
-
-Replace the placeholder values with your real credentials. You can get these by signing up at: [**Example**](https://jsm.dev/example).
 
 **Running the Project**
 
@@ -160,157 +92,41 @@ Replace the placeholder values with your real credentials. You can get these by 
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
-
 Server runs at:
-- HTTP: http://localhost:3000
-- WS: ws://localhost:3000/ws
+- HTTP: http://localhost:8000
+- WS: ws://localhost:8000/ws
 
-**Scripts**
-
-- `npm run dev` — start server with watch mode
-- `npm run seed` — seed DB with a basic match + commentary entry
-
-## REST API
+## <a name="rest-api">📡 REST API</a>
 
 ### List matches
-
 `GET /matches?limit=50`
 
 ### Create match
-
 `POST /matches`
 
-```json
-{
-  "sport": "football",
-  "homeTeam": "FC Neon",
-  "awayTeam": "Drizzle United",
-  "startTime": "2025-02-01T12:00:00.000Z",
-  "endTime": "2025-02-01T13:45:00.000Z"
-}
-```
-
-Allowed status values: `scheduled`, `live`, `finished`.
-
-Status is computed from `startTime` and `endTime`.
-
 ### List commentary for a match
-
 `GET /matches/:id/commentary?limit=100`
 
 ### Create commentary for a match
-
 `POST /matches/:id/commentary`
 
-```json
-{
-  "minute": 42,
-  "sequence": 120,
-  "period": "2nd half",
-  "eventType": "goal",
-  "actor": "Alex Morgan",
-  "team": "FC Neon",
-  "message": "GOAL! Powerful finish from the edge of the box.",
-  "metadata": { "assist": "Sam Kerr" },
-  "tags": ["goal", "shot"]
-}
-```
+## <a name="websocket-protocol">🔌 WebSocket Protocol</a>
 
-## WebSocket Protocol
+Connect: `ws://localhost:8000/ws`
 
-Connect:
+### Client → Server Messages
+- `{ "type": "subscribe", "matchId": 123 }`
+- `{ "type": "unsubscribe", "matchId": 123 }`
+- `{ "type": "setSubscriptions", "matchIds": [1, 2, 3] }`
+- `{ "type": "ping" }`
 
-`ws://localhost:3000/ws`
-
-Optional auto-subscribe on connect:
-
-`ws://localhost:3000/ws?matchId=123`
-
-### Client → Server
-
-```json
-{ "type": "subscribe", "matchId": 123 }
-```
-
-```json
-{ "type": "unsubscribe", "matchId": 123 }
-```
-
-```json
-{ "type": "setSubscriptions", "matchIds": [1, 2, 3] }
-```
-
-```json
-{ "type": "ping" }
-```
-
-### Server → Client
-
-```json
-{ "type": "welcome" }
-```
-
-```json
-{ "type": "subscribed", "matchId": 123 }
-```
-
-```json
-{ "type": "unsubscribed", "matchId": 123 }
-```
-
-```json
-{ "type": "subscriptions", "matchIds": [1, 2, 3] }
-```
-
-```json
-{ "type": "commentary", "data": { "id": 1, "matchId": 123, "message": "..." } }
-```
-
-```json
-{ "type": "pong" }
-```
-
-```json
-{
-  "type": "error",
-  "code": "match_not_found",
-  "message": "Match 999 not found",
-  "matchIds": [999]
-}
-```
+### Server → Client Messages
+- `{ "type": "welcome" }`
+- `{ "type": "commentary", "data": { ... } }`
+- `{ "type": "pong" }`
 
 ### Limits
-
 - Max subscriptions per socket: 50
 - Rate limit: 20 burst, 10 messages/sec
 - Max message payload: 1 MB
 - Backpressure: closes if buffered > 1 MB
-
-## Notes
-
-- Auth is intentionally omitted to keep focus on WS mechanics.
-- For multi-instance scaling, use pub/sub (Redis/NATS/Kafka) so broadcasts
-  reach all WS servers.
-
-## <a name="links">🔗 Assets</a>
-
-Assets and snippets used in the project can be found in the **[video kit](https://jsmastery.com/video-kit/7970240e-e26d-42e0-ba87-a50eb4f0748d)**.
-
-<a href="https://jsmastery.com/video-kit/7970240e-e26d-42e0-ba87-a50eb4f0748d" target="_blank">
-  <img src="public/readme/readme-videokit.webp" alt="Video Kit Banner">
-</a>
-
-## <a name="more">🚀 More</a>
-
-**Advance your skills with JSM Pro Courses**
-
-Enjoyed creating this project? Dive deeper into our PRO courses for a richer learning adventure. They're packed with
-detailed explanations, cool features, and exercises to boost your skills. Give it a go!
-
-<a href="https://jsm.dev/sportz-jsm" target="_blank">
-  <img src="public/readme/readme-jsmpro.webp" alt="Project Banner">
-</a>
-
-
-
