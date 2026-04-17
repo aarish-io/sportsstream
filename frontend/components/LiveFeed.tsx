@@ -58,7 +58,9 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({ messages, isActive, isLoadin
           </div>
         ) : (
           messages.map((msg) => {
-            const timestamp = msg.createdAt ? new Date(msg.createdAt) : new Date();
+            const timestamp = msg.createdAt ? new Date(msg.createdAt) : null;
+            const hasValidTimestamp =
+              timestamp !== null && !Number.isNaN(timestamp.getTime());
             const minuteLabel = formatMinute(msg.minute);
             const metadataLabel = formatMetadata(msg.metadata);
             return (
@@ -71,7 +73,9 @@ export const LiveFeed: React.FC<LiveFeedProps> = ({ messages, isActive, isLoadin
                   <div className="pb-4">
                     <div className="flex flex-wrap items-center gap-2 text-xs text-stone-500 mb-1">
                       <span className="font-mono text-stone-400">
-                        {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                        {hasValidTimestamp
+                          ? timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+                          : '—'}
                       </span>
                       {minuteLabel && (
                         <span className="px-2 py-0.5 bg-stone-100 border border-stone-200 rounded-full font-semibold">
