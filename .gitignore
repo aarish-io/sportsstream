@@ -49,8 +49,6 @@ apminsight*.json
 # Test & Demo Files
 # ============================================
 test-ws-arcjet.js
-test-*.js
-*.test.js
 
 # ============================================
 # Documentation - Generated/Temporary
