@@ -53,7 +53,9 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, isActive, onWatch, 
     }
 
     prevScoreRef.current = { home: match.homeScore, away: match.awayScore };
+  }, [match.homeScore, match.awayScore]);
 
+  useEffect(() => {
     return () => {
       if (pulseTimeoutRef.current.home) {
         clearTimeout(pulseTimeoutRef.current.home);
@@ -62,7 +64,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, isActive, onWatch, 
         clearTimeout(pulseTimeoutRef.current.away);
       }
     };
-  }, [match.homeScore, match.awayScore]);
+  }, []);
   
   // Format status for display (Capitalize first letter)
   const displayStatus = match.status.charAt(0).toUpperCase() + match.status.slice(1).toLowerCase();
