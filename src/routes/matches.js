@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import {createMatchSchema, listMatchesQuerySchema} from "../validation/matches.js";
+import { createMatchSchema, listMatchesQuerySchema, matchIdParamSchema, updateScoreSchema, MATCH_STATUS } from "../validation/matches.js";
 import {matches} from "../db/schema.js";
 import {db} from "../db/db.js";
-import {getMatchStatus} from "../utils/match-status.js";
-import {desc} from "drizzle-orm";
+import {getMatchStatus, syncMatchStatus} from "../utils/match-status.js";
+import {desc, eq} from "drizzle-orm";
 
 export const matchRouter = Router();
 
@@ -65,14 +65,14 @@ matchRouter.patch('/:id/score', async (req, res) => {
     if (!paramsParsed.success) {
         return res
             .status(400)
-            .json({ error: 'Invalid match id', details: formatZodError(paramsParsed.error) });
+            .json({ error: 'Invalid match id', details: paramsParsed.error.issues });
     }
 
     const bodyParsed = updateScoreSchema.safeParse(req.body);
     if (!bodyParsed.success) {
         return res
             .status(400)
-            .json({ error: 'Invalid payload', details: formatZodError(bodyParsed.error) });
+            .json({ error: 'Invalid payload', details: bodyParsed.error.issues });
     }
 
     const matchId = paramsParsed.data.id;

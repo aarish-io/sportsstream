@@ -496,17 +496,59 @@ function getMatchEntry(entry, matchMap) {
     return matchMap.get(entry.matchId) ?? null;
 }
 
-// NOTE: Score updates are not part of this codebase yet.
-// async function updateMatchScore(matchId, homeScore, awayScore) {
-//   const response = await fetch(`${API_URL}/matches/${matchId}/score`, {
-//     method: "PATCH",
-//     headers: { "content-type": "application/json" },
-//     body: JSON.stringify({ homeScore, awayScore }),
-//   });
-//   if (!response.ok) {
-//     throw new Error(`Failed to update score: ${response.status}`);
-//   }
-// }
+async function updateMatchScore(matchId, homeScore, awayScore) {
+    const response = await fetch(`${API_URL}/matches/${matchId}/score`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ homeScore, awayScore }),
+    });
+
+    // Some matches can transition quickly to non-live; skip score bumps gracefully.
+    if (response.status === 409) {
+        return false;
+    }
+
+    if (!response.ok) {
+        throw new Error(`Failed to update score: ${response.status}`);
+    }
+
+    return true;
+}
+
+function scoreDeltaFromEntryBasic(entry, match) {
+    const event = String(entry.eventType || "").toLowerCase();
+    const actorTeam = String(entry.team || "").toLowerCase();
+    const home = String(match.homeTeam || "").toLowerCase();
+    const away = String(match.awayTeam || "").toLowerCase();
+    const forHome = actorTeam && home.includes(actorTeam);
+    const forAway = actorTeam && away.includes(actorTeam);
+
+    if (event.includes("goal")) {
+        if (forHome) return { home: 1, away: 0 };
+        if (forAway) return { home: 0, away: 1 };
+        return Math.random() < 0.5 ? { home: 1, away: 0 } : { home: 0, away: 1 };
+    }
+
+    if (event.includes("wicket")) {
+        if (forHome) return { home: 1, away: 0 };
+        if (forAway) return { home: 0, away: 1 };
+        return { home: 1, away: 0 };
+    }
+
+    if (event.includes("three") || event.includes("3pt") || event.includes("basket")) {
+        if (forHome) return { home: 3, away: 0 };
+        if (forAway) return { home: 0, away: 3 };
+        return Math.random() < 0.5 ? { home: 3, away: 0 } : { home: 0, away: 3 };
+    }
+
+    if (event.includes("two") || event.includes("2pt")) {
+        if (forHome) return { home: 2, away: 0 };
+        if (forAway) return { home: 0, away: 2 };
+        return Math.random() < 0.5 ? { home: 2, away: 0 } : { home: 0, away: 2 };
+    }
+
+    return null;
+}
 
 function randomMatchDelay() {
     const range = NEW_MATCH_DELAY_MAX_MS - NEW_MATCH_DELAY_MIN_MS;
@@ -618,19 +660,17 @@ async function seed() {
         const row = await insertCommentary(match.id, entry);
         console.log(`📣 [Match ${match.id}] ${row.message}`);
 
-        // NOTE: Score updates are intentionally disabled in this codebase.
-        // const isCricket = String(match.sport).toLowerCase() === "cricket";
-        // const delta = isCricket
-        //   ? cricketScoreDelta(entry, match, target)
-        //   : (scoreDeltaFromEntry(entry, match) ?? fakeScoreDelta(target));
-        // if (delta) {
-        //   target.score.home += delta.home;
-        //   target.score.away += delta.away;
-        //   await updateMatchScore(match.id, target.score.home, target.score.away);
-        //   console.log(
-        //     `📊 [Match ${match.id}] Score updated: ${target.score.home}-${target.score.away}`,
-        //   );
-        // }
+        const delta = scoreDeltaFromEntryBasic(entry, match);
+        if (delta) {
+            target.score.home += delta.home;
+            target.score.away += delta.away;
+            const updated = await updateMatchScore(match.id, target.score.home, target.score.away);
+            if (updated) {
+                console.log(
+                    `📊 [Match ${match.id}] Score updated: ${target.score.home}-${target.score.away}`,
+                );
+            }
+        }
 
         // NOTE: Match status updates are intentionally disabled in this codebase.
         // if (Number.isInteger(entry.matchId)) {

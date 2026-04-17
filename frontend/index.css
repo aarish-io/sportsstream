@@ -1,0 +1,12 @@
+/* Global overrides for simple, clean rendering */
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
