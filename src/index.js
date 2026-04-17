@@ -14,10 +14,12 @@ const HOST = process.env.HOST || '0.0.0.0';
 const app = express();
 const server = http.createServer(app);
 
-const allowedOrigins = new Set([
-  'http://localhost:3000',
-  'http://localhost:3001',
-]);
+const allowedOrigins = new Set(
+  (process.env.CORS_ALLOWED_ORIGINS ?? 'http://localhost:3000,http://localhost:3001')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean),
+);
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
