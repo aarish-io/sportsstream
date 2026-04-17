@@ -3,8 +3,14 @@ const DEFAULT_WS_BASE_URL = "ws://localhost:8000/ws";
 
 export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || DEFAULT_API_BASE_URL;
+const derivedWsBaseUrl = (() => {
+  const api = new URL(API_BASE_URL);
+  const wsProtocol = api.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${wsProtocol}//${api.host}/ws`;
+})();
+
 export const WS_BASE_URL =
-  import.meta.env.VITE_WS_BASE_URL || DEFAULT_WS_BASE_URL;
+  import.meta.env.VITE_WS_BASE_URL || derivedWsBaseUrl || DEFAULT_WS_BASE_URL;
 
 // Exponential backoff configuration
 export const MAX_RECONNECT_DELAY = 30000; // 30 seconds
