@@ -522,11 +522,22 @@ function scoreDeltaFromEntryBasic(entry, match) {
     const away = String(match.awayTeam || "").toLowerCase();
     const forHome = actorTeam && home.includes(actorTeam);
     const forAway = actorTeam && away.includes(actorTeam);
+    const fallbackTeamDelta = (points) => {
+        const seedKey = `${match.id}|${entry.sequence ?? ""}|${entry.minute ?? ""}|${entry.eventType ?? ""}|${entry.message ?? ""}`;
+        let hash = 2166136261;
+        for (let i = 0; i < seedKey.length; i += 1) {
+            hash ^= seedKey.charCodeAt(i);
+            hash = Math.imul(hash, 16777619);
+        }
+        return (hash >>> 0) % 2 === 0
+            ? { home: points, away: 0 }
+            : { home: 0, away: points };
+    };
 
     if (event.includes("goal")) {
         if (forHome) return { home: 1, away: 0 };
         if (forAway) return { home: 0, away: 1 };
-        return Math.random() < 0.5 ? { home: 1, away: 0 } : { home: 0, away: 1 };
+        return fallbackTeamDelta(1);
     }
 
     if (event.includes("wicket")) {
@@ -538,13 +549,13 @@ function scoreDeltaFromEntryBasic(entry, match) {
     if (event.includes("three") || event.includes("3pt") || event.includes("basket")) {
         if (forHome) return { home: 3, away: 0 };
         if (forAway) return { home: 0, away: 3 };
-        return Math.random() < 0.5 ? { home: 3, away: 0 } : { home: 0, away: 3 };
+        return fallbackTeamDelta(3);
     }
 
     if (event.includes("two") || event.includes("2pt")) {
         if (forHome) return { home: 2, away: 0 };
         if (forAway) return { home: 0, away: 2 };
-        return Math.random() < 0.5 ? { home: 2, away: 0 } : { home: 0, away: 2 };
+        return fallbackTeamDelta(2);
     }
 
     return null;

@@ -295,13 +295,13 @@ Browser DevTools:
 
 Create `.env.local`:
 ```env
-VITE_API_URL=http://localhost:8000
-VITE_WS_URL=ws://localhost:8000
+VITE_API_BASE_URL=http://localhost:8000
+VITE_WS_BASE_URL=ws://localhost:8000
 ```
 
 Use in code:
 ```typescript
-const apiUrl = import.meta.env.VITE_API_URL
+const apiUrl = import.meta.env.VITE_API_BASE_URL
 ```
 
 ## 🎯 Next Steps
@@ -351,4 +351,3 @@ const apiUrl = import.meta.env.VITE_API_URL
 ---
 
 **You're all set!** Start building your real-time sports streaming platform! ⚡🏟️
-
