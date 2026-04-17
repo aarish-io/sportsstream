@@ -525,7 +525,7 @@ function scoreDeltaFromEntryBasic(entry, match) {
     // Deterministic fallback for neutral/unknown team events:
     // hash stable entry fields so repeated seeds produce the same side assignment.
     const fallbackTeamDelta = (points) => {
-        const seedKey = `${match.id}|${entry.sequence ?? ""}|${entry.minute ?? ""}|${entry.eventType ?? ""}|${entry.message ?? ""}`;
+        const seedKey = `${match.id}|${entry.sequence ?? ""}|${entry.minute ?? ""}|${event}|${entry.message ?? ""}`;
         let hash = 2166136261;
         for (let i = 0; i < seedKey.length; i += 1) {
             hash ^= seedKey.charCodeAt(i);
