@@ -96,6 +96,13 @@ Server runs at:
 - HTTP: http://localhost:8000
 - WS: ws://localhost:8000/ws
 
+## Deployment (Render)
+
+- Build Command: `npm install`
+- Start Command: `npm start` (or `node src/index.js`)
+
+If your service is configured to run `node index.js`, keep the root `index.js` file in the repository because it forwards startup to `src/index.js`.
+
 ## <a name="rest-api">📡 REST API</a>
 
 ### List matches

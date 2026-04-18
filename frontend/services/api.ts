@@ -41,3 +41,24 @@ export const fetchMatchCommentary = async (
     throw error;
   }
 };
+
+export const triggerSeed = async (): Promise<{ message: string }> => {
+  const response = await fetch(`${API_BASE_URL}/admin/seed`, {
+    method: "POST",
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    const errorMessage =
+      typeof data?.error === "string"
+        ? data.error
+        : `API error: ${response.status} ${response.statusText}`;
+    throw new Error(errorMessage);
+  }
+
+  return {
+    message: typeof data?.message === "string" ? data.message : "Seed started",
+  };
+};
+
