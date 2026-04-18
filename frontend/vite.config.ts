@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, '.', '');
+  const env = loadEnv(mode, '.', 'VITE_');
   const port = Number(env.VITE_DEV_PORT || 3000);
   const host = env.VITE_DEV_HOST || '0.0.0.0';
   return {

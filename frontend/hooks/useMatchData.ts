@@ -31,6 +31,7 @@ export const useMatchData = (): UseMatchData => {
   const latestMatchIdRef = useRef<string | number | null>(null);
   const subscribedMatchIdsRef = useRef(new Set<string>());
   const hasLoadedRef = useRef(false);
+  const isFetchingRef = useRef(false);
   const knownMatchIdsRef = useRef(new Set<string>());
   const newMatchesTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -90,6 +91,12 @@ export const useMatchData = (): UseMatchData => {
   } = useWebSocket(handleWSMessage);
 
   const loadMatches = useCallback(async () => {
+    if (isFetchingRef.current) {
+      return;
+    }
+
+    isFetchingRef.current = true;
+
     if (!hasLoadedRef.current) {
       setIsLoading(true);
     }
@@ -140,6 +147,7 @@ export const useMatchData = (): UseMatchData => {
         setIsLoading(false);
         hasLoadedRef.current = true;
       }
+      isFetchingRef.current = false;
     }
   }, [unsubscribeMatch]);
 
