@@ -2,7 +2,7 @@
   "name": "sportsstream",
   "version": "1.0.0",
   "description": "Production-grade backend service for live sports coverage with WebSocket real-time streaming, rate limiting, and robust error handling.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",

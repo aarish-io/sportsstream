@@ -3,11 +3,14 @@ import { useMatchData } from './hooks/useMatchData';
 import { MatchCard } from './components/MatchCard';
 import { LiveFeed } from './components/LiveFeed';
 import { StatusIndicator } from './components/StatusIndicator';
-import { API_BASE_URL, WS_BASE_URL } from './constants';
+import { triggerSeed } from './services/api';
 
 const App: React.FC = () => {
   const pageSize = 6;
   const [currentPage, setCurrentPage] = useState(1);
+  const [isSeeding, setIsSeeding] = useState(false);
+  const [seedMessage, setSeedMessage] = useState<string | null>(null);
+  const [seedError, setSeedError] = useState<string | null>(null);
   const {
     matches,
     isLoading,
@@ -37,6 +40,23 @@ const App: React.FC = () => {
     return matches.slice(startIndex, startIndex + pageSize);
   }, [matches, currentPage]);
 
+  const handleSeed = async () => {
+    setIsSeeding(true);
+    setSeedError(null);
+    setSeedMessage(null);
+
+    try {
+      const response = await triggerSeed();
+      setSeedMessage(response.message);
+      reloadMatches();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to trigger seed';
+      setSeedError(message);
+    } finally {
+      setIsSeeding(false);
+    }
+  };
+
   return (
     <div className="min-h-screen p-4 md:p-8 font-sans sportsstream-grid-fade">
       <div className="max-w-7xl mx-auto space-y-8">
@@ -54,6 +74,27 @@ const App: React.FC = () => {
           </div>
           <div className="flex flex-col items-end gap-2">
             <StatusIndicator status={status} />
+            <button
+              onClick={handleSeed}
+              disabled={isSeeding}
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold border-2 border-black transition-all ${
+                isSeeding
+                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                  : 'bg-black text-white hover:bg-gray-800'
+              }`}
+            >
+              {isSeeding ? 'Starting Seed...' : 'Push Seed Data'}
+            </button>
+            {seedMessage && (
+              <span className="text-xs font-mono bg-green-100 text-green-800 border border-green-200 px-2 py-1 rounded">
+                {seedMessage}
+              </span>
+            )}
+            {seedError && (
+              <span className="text-xs font-mono bg-red-100 text-red-700 border border-red-200 px-2 py-1 rounded">
+                Seed: {seedError}
+              </span>
+            )}
             {wsError && (
               <span className="text-xs font-mono bg-red-100 text-red-700 border border-red-200 px-2 py-1 rounded">
                 WS: {wsError}
@@ -168,32 +209,6 @@ const App: React.FC = () => {
           </aside>
 
         </div>
-
-        {/* Documentation / Verification Section */}
-        <section className="mt-12 border-t-2 border-gray-200 pt-8">
-          <div className="sportsstream-panel p-6 shadow-hard-sm">
-            <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-              <span className="bg-black text-white w-6 h-6 flex items-center justify-center rounded-full text-xs">?</span>
-              Testing & Verification
-            </h3>
-            <div className="grid md:grid-cols-2 gap-8 text-sm text-gray-600">
-              <div>
-                <h4 className="font-bold text-black mb-2">Configuration</h4>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>REST URL: <code className="bg-gray-100 px-1 rounded">{API_BASE_URL}</code></li>
-                  <li>WS URL: <code className="bg-gray-100 px-1 rounded">{WS_BASE_URL}</code></li>
-                  <li>Modify these in <code className="bg-gray-100 px-1 rounded">constants.ts</code></li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-bold text-black mb-2">How to Verify</h4>
-                <p className="mb-2">1. Click the action button on any card (it shows "Watch Live" for live games).</p>
-                <p className="mb-2">2. The status indicator top-right will turn green.</p>
-                <p>3. Wait for <code className="text-xs bg-gray-100 p-0.5 border border-gray-300 rounded">score_update</code> or <code className="text-xs bg-gray-100 p-0.5 border border-gray-300 rounded">commentary</code> events from the server. The card score updates instantly, and the right panel fills with text.</p>
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
   );

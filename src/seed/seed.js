@@ -1,5 +1,6 @@
 import "dotenv/config";
 import fs from "fs/promises";
+import { pathToFileURL } from "url";
 
 const DELAY_MS = Number.parseInt(process.env.DELAY_MS || "250", 10);
 const NEW_MATCH_DELAY_MIN_MS = 2000;
@@ -12,9 +13,6 @@ const FORCE_LIVE =
     process.env.SEED_FORCE_LIVE !== "0" &&
     process.env.SEED_FORCE_LIVE !== "false";
 const API_URL = process.env.API_URL;
-if (!API_URL) {
-    throw new Error("API_URL is required to seed via REST endpoints.");
-}
 
 const DEFAULT_DATA_FILE = new URL("../data/data.json", import.meta.url);
 
@@ -509,7 +507,11 @@ function randomMatchDelay() {
 //   }
 // }
 
-async function seed() {
+export async function runSeed() {
+    if (!API_URL) {
+        throw new Error("API_URL is required to seed via REST endpoints.");
+    }
+
     console.log(`📡 Seeding via API: ${API_URL}`);
 
     const { feed, matches: seedMatches } = await loadSeedData();
@@ -636,7 +638,13 @@ async function seed() {
     }
 }
 
-seed().catch((err) => {
-    console.error("❌ Seed error:", err);
-    process.exit(1);
-});
+const isDirectExecution =
+    typeof process.argv[1] === "string" &&
+    import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isDirectExecution) {
+    runSeed().catch((err) => {
+        console.error("❌ Seed error:", err);
+        process.exit(1);
+    });
+}
