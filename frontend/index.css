@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@source "./index.html";
+@source "./App.tsx";
+@source "./components/**/*.{ts,tsx}";
+@source "./hooks/**/*.{ts,tsx}";
+@source "./services/**/*.{ts,tsx}";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-yellow: #fde047;
+  --color-brand-blue: #bae6fd;
+  --color-brand-dark: #18181b;
+  --shadow-hard: 4px 4px 0 0 #18181b;
+  --shadow-hard-sm: 2px 2px 0 0 #18181b;
+}
+
+:root {
+  --app-bg: radial-gradient(circle at 12% 10%, #fef08a 0%, #fafafa 35%, #f8fafc 100%);
+}
+
+body {
+  background: var(--app-bg);
+  color: #18181b;
+  font-family: var(--font-sans), sans-serif;
+}
+
+@layer components {
+  .sportsstream-panel {
+    @apply border-2 border-black rounded-2xl bg-white/95 backdrop-blur-sm;
+  }
+
+  .sportsstream-grid-fade {
+    background-image: linear-gradient(to right, rgba(24, 24, 27, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(24, 24, 27, 0.06) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+}
+

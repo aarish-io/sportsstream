@@ -115,7 +115,7 @@ export function attachWebSocketServer(server) {
         });
     });
 
-    wss.on('connection', async (socket, req) => {
+    wss.on('connection', async (socket) => {
         socket.isAlive = true;
         socket.on('pong', () => { socket.isAlive = true; });
 
@@ -156,5 +156,16 @@ export function attachWebSocketServer(server) {
         broadcastToMatch(matchId, { type: 'commentary', data: comment });
     }
 
-    return { broadcastMatchCreated, broadcastCommentary };
+    function broadcastScoreUpdate(matchId, score) {
+        broadcastToAll(wss, {
+            type: 'score_update',
+            matchId,
+            data: {
+                homeScore: score.homeScore,
+                awayScore: score.awayScore,
+            },
+        });
+    }
+
+    return { broadcastMatchCreated, broadcastCommentary, broadcastScoreUpdate };
 }

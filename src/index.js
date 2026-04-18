@@ -3,6 +3,7 @@ AgentAPI.config();
 
 import express from 'express';
 import http from 'http';
+import cors from 'cors';
 import {matchRouter} from "./routes/matches.js";
 import {attachWebSocketServer} from "./ws/server.js";
 import {securityMiddleware} from "./arcjet.js";
@@ -14,6 +15,7 @@ const HOST = process.env.HOST || '0.0.0.0';
 const app = express();
 const server = http.createServer(app);
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -25,9 +27,10 @@ app.get('/', (req, res) => {
 app.use('/matches', matchRouter);
 app.use('/matches/:id/commentary', commentaryRouter);
 
-const { broadcastMatchCreated, broadcastCommentary } = attachWebSocketServer(server);
+const { broadcastMatchCreated, broadcastCommentary, broadcastScoreUpdate } = attachWebSocketServer(server);
 app.locals.broadcastMatchCreated = broadcastMatchCreated;
 app.locals.broadcastCommentary = broadcastCommentary;
+app.locals.broadcastScoreUpdate = broadcastScoreUpdate;
 
 server.listen(PORT, HOST, () => {
     const baseUrl = HOST === '0.0.0.0' ? `http://localhost:${PORT}` : `http://${HOST}:${PORT}`;
